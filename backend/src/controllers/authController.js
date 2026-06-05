@@ -24,11 +24,15 @@ export const login = async (req, res) => {
 
 }
 
+
+
+//TODO: allows admin creation, should be  designed differently..
+
 export const signup = async (req, res) => {
-    const { email, password } = req.body
+    const { email, password, role } = req.body
 
     try {
-        const user = await User.signup(email, password)
+        const user = await User.signup(email, password, role)
         //create token
         const token = createToken(user._id)
         console.log(token)

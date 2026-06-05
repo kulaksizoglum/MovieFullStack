@@ -4,6 +4,6 @@ const movieSchema = new mongoose.Schema({
 
 }, { strict: false });
 
-const Movie = mongoose.model("Movie", movieSchema, "movies");
+const Movie = mongoose.model("Movie", movieSchema,);
 
-export default Movie;
+export default Movie;   
