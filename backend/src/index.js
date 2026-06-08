@@ -5,11 +5,14 @@ import movieRoutes from "./routes/movieRoutes.js"
 import authRoutes from "./routes/authRoutes.js"
 import commentRoutes from "./routes/commentRoutes.js"
 import { requireAuth } from "./middleware/requireAuth.js"
+import cors from "cors"
 
 dotenv.config()
-const app = express()
-app.use(express.json())
 
+const app = express()
+//middlewares
+app.use(express.json())
+app.use(cors())
 //routes
 app.use("/api/movies", requireAuth, movieRoutes)
 app.use("/api/auth", authRoutes)

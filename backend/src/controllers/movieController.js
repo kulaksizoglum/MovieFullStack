@@ -2,6 +2,7 @@ import Movie from "../models/Movie.js"
 
 export const getMovies = async (req, res) => {
     try {
+        console.log("getmovies trigerred")
         const movies = await Movie.find().limit(10)
         res.status(200).json(movies)
     } catch (err) {
