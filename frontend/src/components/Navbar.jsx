@@ -23,17 +23,21 @@ const Navbar = () => {
 
                 <div className="flex items-center gap-2">
                     {user && <span className="italic">{user.email}</span>}
-                    <NavLink to="/movies" end className={linkClass}>
-                        Movies
-                    </NavLink>
-
-                    <NavLink to="/movies/create" className={linkClass}>
-                        Add Movie
-                    </NavLink>
-
-                    <NavLink to="/users" className={linkClass}>
-                        Users
-                    </NavLink>
+                    {user &&
+                        <NavLink to="/movies" end className={linkClass}>
+                            Movies
+                        </NavLink>
+                    }
+                    {user?.role === "admin" &&
+                        <NavLink to="/movies/create" className={linkClass}>
+                            Add Movie
+                        </NavLink>
+                    }
+                    {user &&
+                        <NavLink to="/users" className={linkClass}>
+                            Users
+                        </NavLink>
+                    }
                     {!user &&
                         <NavLink to="/login" className={linkClass}>
                             Login

@@ -4,18 +4,20 @@ import SignUpPage from "./pages/SignUpPage"
 import Movies from "./pages/Movies";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard"
+import CreateMovie from "./pages/CreateMovie";
+import { useAuthContext } from "./hooks/useAuthContext";
 function App() {
-
+  const { user } = useAuthContext()
   return (
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-
+        <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+        <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/dashboard" />} />
+        <Route path="/signup" element={!user ? <SignUpPage /> : <Navigate to="/dashboard" />} />
+        <Route path="/movies" element={user ? <Movies /> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/movies/create" element={user?.role === "admin" ? <CreateMovie /> : <Navigate to="/login" />} />
       </Routes>
     </>
   )

@@ -2,6 +2,7 @@ import Movie from "../models/Movie.js"
 
 export const getMovies = async (req, res) => {
     try {
+        console.log("get movies")
         const term = req.query.term
         const page = req.query.page || 1
         const limit = req.query.limit || 15
@@ -22,7 +23,7 @@ export const getMovies = async (req, res) => {
         const movies = await Movie.find(query)
             .skip(skip)
             .limit(limitNumber)
-        const totalMovies = await Movie.countDocuments();
+        const totalMovies = await Movie.countDocuments(query);
 
         res.status(200).json({
             movies,

@@ -10,12 +10,13 @@ const Movies = () => {
     const [movies, setMovies] = useState([])
     const [loading, setLoading] = useState(true);
     const [searchInput, setSearchInput] = useState("");
+    const [term, setTerm] = useState("");
+
 
     const handleSearch = (e) => {
         e.preventDefault();
         setPage(1);
-        console.log(searchInput)
-        setSearchInput(searchInput.trim())
+        setTerm(searchInput.trim());
     };
 
 
@@ -23,7 +24,7 @@ const Movies = () => {
         const fetchMovies = async () => {
             try {
                 console.log(page)
-                const res = await api.get(`/movies?page=${page}&term=${encodeURIComponent(searchInput)}`)
+                const res = await api.get(`/movies?page=${page}&term=${encodeURIComponent(term)}`)
                 setMovies(res.data.movies)
                 setTotalPage(res.data.totalPages)
                 console.log(res)
@@ -35,7 +36,7 @@ const Movies = () => {
         }
 
         fetchMovies()
-    }, [page, searchInput])
+    }, [page, term])
 
     return (
         <div className="min-h-screen bg-slate-100 ">
