@@ -2,9 +2,33 @@ import Movie from "../models/Movie.js"
 
 export const getMovies = async (req, res) => {
     try {
-        console.log("getmovies trigerred")
-        const movies = await Movie.find().limit(10)
-        res.status(200).json(movies)
+        const term = req.query.term
+        const page = req.query.page || 1
+        const limit = req.query.limit || 15
+        const pageNumber = Number(page)
+        const limitNumber = Number(limit)
+        const skip = (pageNumber - 1) * limitNumber
+        console.log("page", page, "skip", skip)
+
+        const query = {};
+        if (term) {
+            query.$or = [
+                { title: { $regex: term, $options: "i" } },
+                { plot: { $regex: term, $options: "i" } },
+                { genres: { $regex: term, $options: "i" } },
+            ];
+        }
+
+        const movies = await Movie.find(query)
+            .skip(skip)
+            .limit(limitNumber)
+        const totalMovies = await Movie.countDocuments();
+
+        res.status(200).json({
+            movies,
+            totalPages: Math.ceil(totalMovies / limitNumber),
+            totalMovies,
+        });
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
@@ -27,9 +51,7 @@ export const getMovieById = async (req, res) => {
 export const createMovie = async (req, res) => {
 
     try {
-        const { title } = req.body
-        const newMovie = await Movie.create({ title })
-
+        const newMovie = await Movie.create(req.body)
         res.status(201).json(newMovie);
 
     } catch (error) {

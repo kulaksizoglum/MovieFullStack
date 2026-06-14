@@ -15,7 +15,12 @@ export const login = async (req, res) => {
         //create token
         const token = createToken(user._id)
         console.log(token)
-        res.status(201).json({ user, token })
+        res.status(201).json({
+            _id: user._id,
+            email: user.email,
+            role: user.role,
+            token
+        })
 
     } catch (error) {
         console.log(error)
@@ -36,7 +41,12 @@ export const signup = async (req, res) => {
         //create token
         const token = createToken(user._id)
         console.log(token)
-        res.status(201).json({ user, token })
+        res.status(201).json({
+            _id: user._id,
+            email: user.email,
+            role: user.role,
+            token
+        })
     } catch (error) {
         console.log(error)
         res.status(400).json({ "error": error.message })

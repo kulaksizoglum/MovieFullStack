@@ -3,6 +3,7 @@ import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 const Navbar = () => {
     const { user } = useAuthContext()
+    console.log(user)
     const navigate = useNavigate()
     const logout = useLogout()
     const linkClass = ({ isActive }) =>
@@ -21,8 +22,8 @@ const Navbar = () => {
                 </NavLink>
 
                 <div className="flex items-center gap-2">
-                    {user && <span className="italic">{user.user.email}</span>}
-                    <NavLink to="/" end className={linkClass}>
+                    {user && <span className="italic">{user.email}</span>}
+                    <NavLink to="/movies" end className={linkClass}>
                         Movies
                     </NavLink>
 
