@@ -1,5 +1,6 @@
 import { useSignUp } from "../hooks/useSignUp"
 import { useState } from "react"
+import { Link } from "react-router"
 
 const SignUpPage = () => {
     const [email, setEmail] = useState("")
@@ -9,42 +10,47 @@ const SignUpPage = () => {
 
     const handleSignup = async (e) => {
         e.preventDefault()
-        console.log(email, password)
         await signup(email, password)
     }
 
     return (
 
         <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4">
-            <form className="w-full max-w-md bg-white p-8 rounded-2xl shadow mb-50" onSubmit={handleSignup}>
+            <form className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md" onSubmit={handleSignup}>
                 <h1 className="text-2xl font-bold mb-6"> Sign Up</h1>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Email</label>
+                    <label className="label">
+                        <span className="label-text font-medium">Email</span>
+                    </label>
                     <input
                         type="email"
                         placeholder="example@gmail.com"
-                        className="w-full border rounded-lg px-3 py-2"
+                        className="input input-bordered w-full"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Password</label>
+                    <label className="label">
+                        <span className="label-text font-medium">Password</span>
+                    </label>
                     <input
                         type="password"
-                        placeholder="*********"
-                        className="w-full border rounded-lg px-3 py-2"
+                        placeholder="••••••••"
+                        className="input input-bordered w-full"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button disabled={loading} className="w-full bg-slate-900 text-white py-2 rounded-lg hover:bg-slate-800">
-                    Sign Up
+                <button disabled={loading} className="btn btn-primary w-full">
+                    {loading ? "Creating account..." : "Sign Up"}
                 </button>
-                {error && <div> {error}</div>}
+                {error && <div className="alert alert-error text-sm py-2">{error}</div>}
             </form>
 
+            <div className="text-center mt-4">
+                <p className="text-sm">Already have an account? <Link className="link link-primary font-medium" to="/login">Sign In</Link></p>
+            </div>
         </div>
 
     )

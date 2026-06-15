@@ -31,20 +31,18 @@ export const login = async (req, res) => {
 
 
 
-//TODO: allows admin creation, should be  designed differently..
 
 export const signup = async (req, res) => {
-    const { email, password, role } = req.body
+    const { email, password } = req.body
 
     try {
-        const user = await User.signup(email, password, role)
+        const user = await User.signup(email, password)
         //create token
         const token = createToken(user._id)
         console.log(token)
         res.status(201).json({
             _id: user._id,
             email: user.email,
-            role: user.role,
             token
         })
     } catch (error) {

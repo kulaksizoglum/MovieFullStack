@@ -14,7 +14,6 @@ export const requireAuth = async (req, res, next) => {
     try {
         const { _id } = jwt.verify(token, process.env.SECRET_KEY)
         req.user = await User.findOne({ _id })
-
         console.log("user", req.user)
         next()
     } catch (err) {

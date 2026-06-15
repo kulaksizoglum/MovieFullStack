@@ -23,13 +23,11 @@ const Movies = () => {
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                console.log(page)
                 const res = await api.get(`/movies?page=${page}&term=${encodeURIComponent(term)}`)
                 setMovies(res.data.movies)
                 setTotalPage(res.data.totalPages)
-                console.log(res)
             } catch (error) {
-                console.log(error)
+                console.error(error)
             } finally {
                 setLoading(false)
             }
@@ -39,68 +37,74 @@ const Movies = () => {
     }, [page, term])
 
     return (
-        <div className="min-h-screen bg-slate-100 ">
-            <div className="p-6 rounded-4xl font-serif ml-10 mr-10 ">
-                <div className="relative bg-[url('/movies_background.jpg')] bg-cover bg-center] h-72 rounded-3xl">
-                    <div className="absolute inset-0 bg-black/70"></div>
-                    <div className="relative pt-20 pl-40 text-white">
-                        <h4 className="text-5xl"> Explore Movies. </h4>
-                        <h2 className="text-3xl">Search, browse and discover movies from the database.</h2>
+        <div className="min-h-screen bg-slate-100">
+            <div className="max-w-7xl mx-auto px-6 py-6">
+                <div className="relative bg-[url('/movies_background.jpg')] bg-cover bg-center rounded-2xl h-72 flex items-center mb-10">
+                    <div className="absolute inset-0 bg-black/70 rounded-2xl"></div>
+                    <div className="relative px-8 py-12 text-white">
+                        <h1 className="text-5xl font-bold mb-2">Explore Movies</h1>
+                        <h2 className="text-xl">Search, browse and discover movies from our database</h2>
                     </div>
                 </div>
-
-                <section>
-                    <div className="m-10 text-xl font-bold text-slate-900">
-                        <h2>All Movies</h2>
+                {loading && (
+                    <div className="flex justify-center py-12">
+                        <span className="loading loading-spinner loading-lg"></span>
                     </div>
-                    <form onSubmit={handleSearch} className="flex gap-3 mb-8">
-                        <input
-                            type="text"
-                            value={searchInput}
-                            onChange={(e) => { setSearchInput(e.target.value) }}
-                            placeholder="Search movies..."
-                            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900"
-                        />
+                )}
+                {!loading && (
+                    <section>
+                        <div className="mb-8">
+                            <h2 className="text-3xl font-bold text-slate-900">All Movies</h2>
+                        </div>
+                        <form onSubmit={handleSearch} className="flex gap-3 mb-8">
+                            <input
+                                type="text"
+                                value={searchInput}
+                                onChange={(e) => { setSearchInput(e.target.value) }}
+                                placeholder="Search movies..."
+                                className="input input-bordered flex-1"
+                            />
 
-                        <button
-                            type="submit"
-                            className="px-6 py-3 rounded-xl bg-slate-900 text-white font-medium hover:bg-slate-800"
-                        >
-                            Search
-                        </button>
-                    </form>
-                    <div className="flex gap-4 mt-10 mb-10">
+                            <button
+                                type="submit"
+                                className="btn btn-primary"
+                            >
+                                Search
+                            </button>
+                        </form>
 
-                        <button
-                            onClick={() => setPage(prev => prev - 1)}
-                            disabled={page === 1}
-                            className="px-4 py-2 rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800 disabled:bg-slate-400 disabled:cursor-not-allowed"
+                        <div className="flex gap-2 items-center justify-between mb-8 flex-wrap">
+                            <button
+                                onClick={() => setPage(prev => prev - 1)}
+                                disabled={page === 1}
+                                className="btn btn-sm"
+                            >
+                                ← Previous
+                            </button>
+                            <div className="text-sm text-slate-600">
+                                Page <span className="font-bold">{page}</span> of{" "}
+                                <span className="font-bold">{totalPage}</span>
+                            </div>
 
-                        >
-                            Previous
-                        </button>
-                        <p className="text-slate-700 font-medium">
-                            Page <span className="font-bold">{page}</span> of{" "}
-                            <span className="font-bold">{totalPage}</span>
-                        </p>
+                            <button
+                                onClick={() => setPage((prev) => prev + 1)}
+                                disabled={page === totalPage}
+                                className="btn btn-sm"
+                            >
+                                Next →
+                            </button>
+                        </div>
 
-                        <button
-                            onClick={() => setPage((prev) => prev + 1)}
-                            disabled={page === totalPage}
-                            className="px-4 py-2 rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800 disabled:bg-slate-400 disabled:cursor-not-allowed"
-                        >
-                            Next
-                        </button>
-                    </div>
-                    {!loading && (
+
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                             {movies.map((movie) => (
                                 <MovieCard key={movie._id} movie={movie} />
                             ))}
                         </div>
-                    )}
 
-                </section>
+
+                    </section>
+                )}
 
             </div>
         </div>

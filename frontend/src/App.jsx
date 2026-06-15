@@ -17,7 +17,7 @@ function App() {
         <Route path="/signup" element={!user ? <SignUpPage /> : <Navigate to="/dashboard" />} />
         <Route path="/movies" element={user ? <Movies /> : <Navigate to="/login" />} />
         <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
-        <Route path="/movies/create" element={user?.role === "admin" ? <CreateMovie /> : <Navigate to="/login" />} />
+        <Route path="/movies/create" element={user?.role === "admin" ? <CreateMovie /> : <Navigate to="/dashboard" />} />
       </Routes>
     </>
   )

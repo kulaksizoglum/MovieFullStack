@@ -20,9 +20,11 @@ export const useLogin = () => {
             localStorage.setItem("user", JSON.stringify(json))
             //update auth context
             dispatch({ type: "LOGIN", payload: json })
+            return true
 
         } catch (err) {
             setError(err.response?.data?.error || "Login failed")
+            return false
         } finally {
             setLoading(false)
         }

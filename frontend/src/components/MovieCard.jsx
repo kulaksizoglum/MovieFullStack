@@ -6,7 +6,7 @@ const MovieCard = ({ movie }) => {
         "https://placehold.co/400x600?text=No+Poster";
 
     return (
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition">
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <img
                 src={poster}
                 alt={movie.title}
@@ -14,7 +14,7 @@ const MovieCard = ({ movie }) => {
             />
 
             <div className="p-4">
-                <h3 className="font-bold text-slate-900 line-clamp-2">
+                <h3 className="font-bold text-lg text-slate-900 line-clamp-2">
                     {movie.title}
                 </h3>
 
@@ -24,12 +24,9 @@ const MovieCard = ({ movie }) => {
 
                 <div className="flex flex-wrap gap-2 mt-3">
                     {movie.genres?.slice(0, 3).map((genre) => (
-                        <span
-                            key={genre}
-                            className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full"
-                        >
+                        <div key={genre} className="badge badge-outline badge-md badge-ghost">
                             {genre}
-                        </span>
+                        </div>
                     ))}
                 </div>
 
@@ -40,7 +37,7 @@ const MovieCard = ({ movie }) => {
 
                     <Link
                         to={`/movies/${movie._id}`}
-                        className="text-sm text-blue-600 hover:underline"
+                        className="btn btn-s btn-ghost text-blue-600 hover:text-blue-700"
                     >
                         Details
                     </Link>
